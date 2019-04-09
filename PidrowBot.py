@@ -1,22 +1,3 @@
-"""
-
-  Chat bot pra que? -> Sistema de Cadastro
-
-  Banco de Dados {
-
-    "id": String
-    "nome": String
-    "idade": Integer
-    "Sexo": Int
-    "altura": Float
-    "email": String
-
-  }
-
-
-"""
-
-
 import telebot
 from telebot import types
 
@@ -53,20 +34,7 @@ class Usuario:
   def printlist(self):
     msg = '\nID Telegram: {}\nNome: {}\nIdade: {} anos\nSexo: {}\nAltura: {}m\nEmail: {}'.format(self.id, self.nome, self.idade, self.sexo, self.altura, self.email)
     return msg
-"""
-  def getJson(self):
-    msg = '''
-          {
-            IDTel: {},
-            Nome: {},
-            Idade: {},
-            Sexo: {},
-            Altura: {},
-            Email: {}
-          }
-          '''.format(self.id, self.nome, self.idade, self.sexo, self.altura, self.email)
-    return msg
-"""
+
 
 # End Usuario
 
@@ -85,6 +53,7 @@ def iniciodarodada(message):
 
   pidrow.send_message(message.chat.id,"Bem Vindo!\nDigite /help para saber os comandos")
 
+# CallBack Help
 @pidrow.message_handler(commands=['help'])
 def help(message):
   pidrow.send_message(message.chat.id,'/cadastrar: Cadastrar novo usuario\n/listar: Lista usuarios ja cadastrados\n/deletar: deleta seu proprio usuario')
@@ -146,11 +115,12 @@ def cadastrar(message):
   msg = pidrow.send_message(message.chat.id, 'Qual o seu nome?', reply_markup=markup)
   pidrow.register_next_step_handler(msg, lerNome)
 
+# CallBack listar
 @pidrow.message_handler(commands=['listar'])
 def listar(message):
   for usuario in cadastrados:
     pidrow.send_message(message.chat.id, usuario.printlist())
-
+#CallBack Deletar
 @pidrow.message_handler(commands=['deletar'])
 def deletar(message):
 
